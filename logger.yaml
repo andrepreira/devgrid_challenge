@@ -1,0 +1,7 @@
+services:
+   dozzle:
+      image: amir20/dozzle:latest
+      container_name: logger
+      volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+      ports: ["11000:8080"]
+      restart: always
