@@ -12,6 +12,7 @@ python-dotenv = "*"
 sqlalchemy = "*"
 aiohttp = "*"
 psycopg2-binary = "*"
+alembic = "*"
 
 [dev-packages]
 pytest = "*"

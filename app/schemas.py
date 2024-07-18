@@ -1,32 +1,30 @@
-from pydantic import BaseModel
 from datetime import datetime
+
+from pydantic import BaseModel, Json
 
 class Weather(BaseModel):
     city_id: int
-    temp: float
+    temperature: float
     humidity: int
 
-class WeatherDataBase(BaseModel):
-    city_id: int
-    temp: float
-    humidity: int
-    data: Weather
+class WeatherDataCreate(Weather):
+    data: Json[Weather]
 
-class WeatherDataCreate(WeatherDataBase):
-    pass
-
-class WeatherData(WeatherDataBase):
+class WeatherData(Weather):
     id: int
     timestamp: datetime
 
     class Config:
         from_attributes = True
 
+
 class RequestLogBase(BaseModel):
-    user_defined_id: str
+    username: str
+
 
 class RequestLogCreate(RequestLogBase):
     total_cities: int
+
 
 class RequestLog(RequestLogBase):
     id: int
@@ -36,6 +34,17 @@ class RequestLog(RequestLogBase):
     class Config:
         from_attributes = True
 
+
 class ProgressResponse(BaseModel):
-    user_defined_id: str
+    username: str
     progress: float
+    
+    class Config:
+        from_attributes = True
+
+class RequestLogResponse(BaseModel):
+    message: str
+    username: str
+    
+    class Config:
+        from_attributes = True
