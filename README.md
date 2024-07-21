@@ -1,4 +1,4 @@
-# Weather Data Service
+# Devgrid Challenge
 
 ## Setup
 
@@ -40,3 +40,7 @@ make tests
 ```bash
 make log
 ```
+
+4. FastApi Documentation:
+http://localhost:8000/docs
+

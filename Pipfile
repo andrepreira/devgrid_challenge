@@ -25,6 +25,7 @@ respx = "*"
 pytest-asyncio = "*"
 pyright = "*"
 ipykernel = "*"
+aioresponses = "*"
 
 [requires]
 python_version = "3.11"

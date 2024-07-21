@@ -24,7 +24,7 @@ start:
 tests: ## run all tests
 	@export PIPENV_DONT_LOAD_ENV=1 ; \
 	export API_KEY="abs" ; \
-	pipenv run pytest -vv
+	pipenv run pytest -vv --cov=app --asyncio-mode=auto tests/
 
 setup: 
 	pip install --upgrade pip
@@ -49,3 +49,8 @@ migrate:
 upgrade:
 	@alembic upgrade head
 	@echo "Database upgraded to latest migration"
+
+rm-env:
+	docker-compose down
+	docker volume rm devgrid_challenge_postgres_data
+	@rm alembic/versions/*.py
