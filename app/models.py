@@ -1,6 +1,8 @@
 from datetime import datetime, timezone
 
-from sqlalchemy import JSON, Column, DateTime, Float, Integer, String
+from sqlalchemy import JSON, Column, DateTime, Float 
+from sqlalchemy import Integer, String, ForeignKey
+from sqlalchemy.orm import relationship
 
 from app.database import Base
 
@@ -13,7 +15,10 @@ class WeatherData(Base):
     temperature = Column(Float)
     humidity = Column(Integer)
     data = Column(JSON)
+    username = Column(String, ForeignKey("request_log.username"))
     timestamp = Column(DateTime, default=datetime.now(timezone.utc))
+    
+    request_log = relationship("RequestLog", back_populates="weather_data")
 
 
 class RequestLog(Base):
@@ -24,3 +29,5 @@ class RequestLog(Base):
     total_cities = Column(Integer)
     cities_collected = Column(Integer, default=0)
     timestamp = Column(DateTime, default=datetime.now(timezone.utc))
+    
+    weather_data = relationship("WeatherData", back_populates="request_log")
