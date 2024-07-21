@@ -4,8 +4,12 @@ from app.models import RequestLog, WeatherData
 from app.schemas import RequestLogCreate, WeatherDataCreate
 
 
-def create_weather_data(db: Session, weather_data: WeatherDataCreate, request_log: RequestLog):
-    db_weather_data = WeatherData(**weather_data.model_dump(), username=request_log.username)
+def create_weather_data(
+    db: Session, weather_data: WeatherDataCreate, request_log: RequestLog
+):
+    db_weather_data = WeatherData(
+        **weather_data.model_dump(), username=request_log.username
+    )
     db.add(db_weather_data)
     db.commit()
     db.refresh(db_weather_data)
@@ -21,11 +25,7 @@ def create_request_log(db: Session, request_log: RequestLogCreate):
 
 
 def get_request_log_by_username(db: Session, username: str):
-    return (
-        db.query(RequestLog)
-        .filter(RequestLog.username == username)
-        .first()
-    )
+    return db.query(RequestLog).filter(RequestLog.username == username).first()
 
 
 def update_request_log(db: Session, request_log: RequestLog, cities_collected: int):
