@@ -23,7 +23,6 @@ start:
 
 tests: ## run all tests
 	@export PIPENV_DONT_LOAD_ENV=1 ; \
-	export API_KEY="abs" ; \
 	pipenv run pytest -vv --cov=app --asyncio-mode=auto tests/
 
 setup: 
