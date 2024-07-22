@@ -6,7 +6,6 @@ from sqlalchemy.orm import Session
 from app import crud, schemas, utils
 from app.constants import CITY_ID_LIST
 from app.database import get_db
-from app.models import RequestLog
 
 router = APIRouter()
 

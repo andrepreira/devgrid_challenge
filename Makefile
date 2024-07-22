@@ -14,14 +14,17 @@ log:
 	docker-compose -f logger.yaml build
 	docker-compose -f logger.yaml up -d
 
-build: 
+build:
 	docker-compose --env-file ./app/.env build 
 	docker-compose --env-file ./app/.env up -d
+	pipenv run alembic revision --autogenerate -m "$(MIGRATION_MESSAGE)"
+	pipenv run alembic upgrade head
 
 start:
 	docker-compose --env-file ./app/.env up -d
 
-tests: ## run all tests
+tests:
+	docker-compose run test -d --rm
 	@export PIPENV_DONT_LOAD_ENV=1 ; \
 	pipenv run pytest -vv --cov=app --asyncio-mode=auto tests/
 
@@ -37,16 +40,16 @@ fmt:
 	pipenv run black app/ tests/
 
 init-db:
-	@alembic init alembic
+	pipenv run alembic init alembic
 	@sed -i 's|^sqlalchemy.url.*|sqlalchemy.url = $(DB_URL)|' alembic.ini
 	@echo "Alembic initialized with database URL: $(DB_URL)"
 
 migrate:
-	@alembic revision --autogenerate -m "$(MIGRATION_MESSAGE)"
+	pipenv run alembic revision --autogenerate -m "$(MIGRATION_MESSAGE)"
 	@echo "Migration script created with message: $(MIGRATION_MESSAGE)"
 
 upgrade:
-	@alembic upgrade head
+	pipenv run alembic upgrade head
 	@echo "Database upgraded to latest migration"
 
 rm-env:
